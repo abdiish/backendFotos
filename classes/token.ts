@@ -21,7 +21,8 @@ export default class Token {
             jwt.verify(userToken, this.seed, (err: any, decoded: any) => {
                 
                 if (err) {
-                    reject();      
+                    reject();    
+                    
                 }else{
                     resolve(decoded);
                 }
