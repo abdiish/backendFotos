@@ -2,8 +2,10 @@ import { Router, Response } from 'express';
 import { verificarToken } from '../middlewares/autenticacion';
 import { Post } from '../models/post.model';
 import { FileUpload } from '../interfaces/file-upload';
+import FileSystem from '../classes/file-system';
 
 const postRoutes = Router();
+const fileSystem = new FileSystem();
 
 // Crear post
 postRoutes.post('/', [verificarToken], (req: any, res: Response) => {
@@ -74,6 +76,8 @@ postRoutes.post('/upload', [verificarToken], (req: any, res: Response ) => {
             mensaje: 'El archivo no corresponde a una imagen'
         });
     }
+
+    fileSystem.guardarImagenTemporal(file, req.usuario._id);
     
     res.json({
         ok: true,
