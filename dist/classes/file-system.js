@@ -9,11 +9,21 @@ const uniqid_1 = __importDefault(require("uniqid"));
 class FileSystem {
     constructor() { }
     guardarImagenTemporal(file, userId) {
-        // Crear carpetas
-        const path = this.crearCarpetaUsuario(userId);
-        // Nombre archivo
-        const nombreArchivo = this.generarNombreUnico(file.name);
-        console.log(nombreArchivo);
+        return new Promise((resolve, reject) => {
+            // Crear carpetas
+            const path = this.crearCarpetaUsuario(userId);
+            // Nombre archivo
+            const nombreArchivo = this.generarNombreUnico(file.name);
+            // Mover archivo 
+            file.mv(`${path}/${nombreArchivo}`, (err) => {
+                if (err) {
+                    reject(err);
+                }
+                else {
+                    resolve();
+                }
+            });
+        });
     }
     generarNombreUnico(nombreOriginal) {
         //Extraer extnesión del archivo
@@ -32,6 +42,25 @@ class FileSystem {
             fs_1.default.mkdirSync(pathUserTemp, { recursive: true });
         }
         return pathUserTemp;
+    }
+    imagenesDeTempPost(userId) {
+        const pathTemp = path_1.default.resolve(__dirname, '../uploads/', userId, 'temp');
+        const pathPost = path_1.default.resolve(__dirname, '../uploads/', userId, 'posts');
+        if (!fs_1.default.existsSync(pathTemp)) {
+            return [];
+        }
+        if (!fs_1.default.existsSync(pathPost)) {
+            fs_1.default.mkdirSync(pathPost);
+        }
+        const imagenesTemp = this.obtenerImagenesTemp(userId);
+        imagenesTemp.forEach(imagen => {
+            fs_1.default.renameSync(`${pathTemp}/${imagen}`, `${pathPost}.${imagen}`);
+        });
+        return imagenesTemp;
+    }
+    obtenerImagenesTemp(userId) {
+        const pathTemp = path_1.default.resolve(__dirname, '../uploads/', userId, 'temp');
+        return fs_1.default.readdirSync(pathTemp) || [];
     }
 }
 exports.default = FileSystem;

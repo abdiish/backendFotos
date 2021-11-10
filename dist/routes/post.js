@@ -22,6 +22,8 @@ const fileSystem = new file_system_1.default();
 postRoutes.post('/', [autenticacion_1.verificarToken], (req, res) => {
     const body = req.body;
     body.usuario = req.usuario._id;
+    const imagenes = fileSystem.imagenesDeTempPost(req.usuario._id);
+    body.imgs = imagenes;
     post_model_1.Post.create(body).then((postDB) => __awaiter(void 0, void 0, void 0, function* () {
         yield postDB.populate('usuario', '-password');
         res.json({
@@ -50,7 +52,7 @@ postRoutes.get('/', (req, res) => __awaiter(void 0, void 0, void 0, function* ()
     });
 }));
 // Servicio para subir archivos
-postRoutes.post('/upload', [autenticacion_1.verificarToken], (req, res) => {
+postRoutes.post('/upload', [autenticacion_1.verificarToken], (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     if (!req.files) {
         return res.status(400).json({
             ok: false,
@@ -70,10 +72,10 @@ postRoutes.post('/upload', [autenticacion_1.verificarToken], (req, res) => {
             mensaje: 'El archivo no corresponde a una imagen'
         });
     }
-    fileSystem.guardarImagenTemporal(file, req.usuario._id);
+    yield fileSystem.guardarImagenTemporal(file, req.usuario._id);
     res.json({
         ok: true,
         file: file.mimetype
     });
-});
+}));
 exports.default = postRoutes;
