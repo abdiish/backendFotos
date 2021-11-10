@@ -1,7 +1,10 @@
 import Server from './classes/server';
-import userRoutes from './routes/usuario';
+
 import mongoose from 'mongoose';
 import express from 'express';
+
+import userRoutes from './routes/usuario';
+import postRoutes from './routes/post';
 
 const server = new Server();
 
@@ -9,9 +12,9 @@ const server = new Server();
 server.app.use(express.urlencoded({extended: true}));
 server.app.use(express.json());
 
-
 // Rutas de la aplicación
 server.app.use('/user', userRoutes);
+server.app.use('/posts', postRoutes);
 
 // Conectar DB
 mongoose.connect('mongodb://localhost:27017/fotosgram', (err) => {
