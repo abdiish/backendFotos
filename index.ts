@@ -1,6 +1,8 @@
 import Server from './classes/server';
 import mongoose from 'mongoose';
 
+import cors from 'cors';
+
 import express from 'express';
 import fileUpload from 'express-fileupload';
 
@@ -18,6 +20,9 @@ server.app.use(fileUpload({
     useTempFiles: true, 
     tempFileDir: './temp/'
 }));
+
+// CORS
+server.app.use(cors({ origin: true, credentials: true }));
 
 // Rutas de la aplicación
 server.app.use('/user', userRoutes);
