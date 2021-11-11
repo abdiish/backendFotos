@@ -30,7 +30,7 @@ postSchema.pre<IPost>('save', function(next) {
 interface IPost extends Document {
     created: Date;
     mensaje: string;
-    imgs    : string[];
+    img    : string[];
     coords : string;
     usuario: string;
 }

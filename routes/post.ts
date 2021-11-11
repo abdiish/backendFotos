@@ -13,7 +13,7 @@ postRoutes.post('/', [verificarToken], (req: any, res: Response) => {
     const body   = req.body;
     body.usuario = req.usuario._id;
 
-    const imagenes = fileSystem.imagenesDeTempPost(req.usuario._id);
+    const imagenes = fileSystem.imagenesDeTempHaciaPost(req.usuario._id);
     body.imgs      = imagenes;
 
     Post.create(body).then(async postDB  => {

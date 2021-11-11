@@ -5,7 +5,7 @@ import uniqid from 'uniqid';
 
 export default class FileSystem {
 
-    constructor() {}
+    constructor() {};
 
     guardarImagenTemporal(file: FileUpload, userId: string){
 
@@ -42,9 +42,7 @@ export default class FileSystem {
 
         const pathUser     = path.resolve(__dirname, '../uploads/', userId);
         const pathUserTemp = pathUser + '/temp';
-        console.log(pathUser);
-
-        const existe = fs.existsSync(pathUser);
+        const existe       = fs.existsSync(pathUser);
 
         if (!existe) {
             fs.mkdirSync(pathUser, {recursive: true});
@@ -55,7 +53,7 @@ export default class FileSystem {
 
     }
 
-    imagenesDeTempPost(userId: string) {
+    imagenesDeTempHaciaPost(userId: string) {
 
         const pathTemp = path.resolve(__dirname, '../uploads/', userId, 'temp');
         const pathPost = path.resolve(__dirname, '../uploads/', userId, 'posts');
@@ -71,7 +69,7 @@ export default class FileSystem {
         const imagenesTemp = this.obtenerImagenesTemp(userId);
 
         imagenesTemp.forEach(imagen => {
-            fs.renameSync(`${pathTemp}/${imagen}`, `${pathPost}.${imagen}`)
+            fs.renameSync(`${pathTemp}/${imagen}`, `${pathPost}/${imagen}`)
         });
 
         return imagenesTemp;

@@ -8,6 +8,7 @@ const fs_1 = __importDefault(require("fs"));
 const uniqid_1 = __importDefault(require("uniqid"));
 class FileSystem {
     constructor() { }
+    ;
     guardarImagenTemporal(file, userId) {
         return new Promise((resolve, reject) => {
             // Crear carpetas
@@ -35,7 +36,6 @@ class FileSystem {
     crearCarpetaUsuario(userId) {
         const pathUser = path_1.default.resolve(__dirname, '../uploads/', userId);
         const pathUserTemp = pathUser + '/temp';
-        console.log(pathUser);
         const existe = fs_1.default.existsSync(pathUser);
         if (!existe) {
             fs_1.default.mkdirSync(pathUser, { recursive: true });
@@ -43,7 +43,7 @@ class FileSystem {
         }
         return pathUserTemp;
     }
-    imagenesDeTempPost(userId) {
+    imagenesDeTempHaciaPost(userId) {
         const pathTemp = path_1.default.resolve(__dirname, '../uploads/', userId, 'temp');
         const pathPost = path_1.default.resolve(__dirname, '../uploads/', userId, 'posts');
         if (!fs_1.default.existsSync(pathTemp)) {
@@ -54,7 +54,7 @@ class FileSystem {
         }
         const imagenesTemp = this.obtenerImagenesTemp(userId);
         imagenesTemp.forEach(imagen => {
-            fs_1.default.renameSync(`${pathTemp}/${imagen}`, `${pathPost}.${imagen}`);
+            fs_1.default.renameSync(`${pathTemp}/${imagen}`, `${pathPost}/${imagen}`);
         });
         return imagenesTemp;
     }

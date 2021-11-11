@@ -22,7 +22,7 @@ const fileSystem = new file_system_1.default();
 postRoutes.post('/', [autenticacion_1.verificarToken], (req, res) => {
     const body = req.body;
     body.usuario = req.usuario._id;
-    const imagenes = fileSystem.imagenesDeTempPost(req.usuario._id);
+    const imagenes = fileSystem.imagenesDeTempHaciaPost(req.usuario._id);
     body.imgs = imagenes;
     post_model_1.Post.create(body).then((postDB) => __awaiter(void 0, void 0, void 0, function* () {
         yield postDB.populate('usuario', '-password');
