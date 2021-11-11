@@ -78,4 +78,11 @@ postRoutes.post('/upload', [autenticacion_1.verificarToken], (req, res) => __awa
         file: file.mimetype
     });
 }));
+// Mostar Imgen
+postRoutes.get('/imagen/:userid/:img', (req, res) => {
+    const userId = req.params.userid;
+    const img = req.params.img;
+    const pathFoto = fileSystem.getFotoUrl(userId, img);
+    res.sendFile(pathFoto);
+});
 exports.default = postRoutes;
